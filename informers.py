@@ -20,6 +20,9 @@ weather_url = weather_base.format(
 todoist_api = todoist.TodoistAPI()
 todoist_api.login(os.environ['TODOIST_LOGIN'], os.environ['TODOIST_PASSWORD'])
 
+loklak_base = 'http://loklak.org/api/search.json?timezoneOffset=-240&q=%40{}+since%3A'
+loklak_url = loklak_base.format(os.environ.get('TWITTER_NAME', 'sevazhidkov'))
+
 
 def time_informer(device):
     device.print_rows('Today:', time.strftime('%c'))
@@ -50,3 +53,10 @@ def todoist_informer(device):
         if utc_date.astimezone(dateutil.tz.tzlocal()).day == time.localtime().tm_yday:
             tasks_num += 1
     device.print_rows('Today tasks:', str(tasks_num))
+
+
+def twitter_informer(device):
+    localtime = time.localtime()
+    date = '{}-{}-{}'.format(localtime.tm_year, localtime.tm_mon, localtime.tm_yday)
+    mentions_num = json.loads(requests.get(loklak_url + date).text)['search_metadata']['count']
+    device.print_rows('Twitter mentions:', str(mentions_num))

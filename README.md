@@ -8,3 +8,4 @@ Small project to print different messages into LCD screen.
 * Time and date
 * Weather
 * Todoist tasks
+* Twitter mentions (using Loklak)
