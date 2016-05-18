@@ -7,7 +7,14 @@ import requests
 import vk_api
 import todoist
 
-vk_session = vk_api.VkApi(os.environ['VK_LOGIN'], os.environ['VK_PASSWORD'])
+
+def captcha_handler(captcha):
+    key = input("Enter Captcha {0}: ".format(captcha.get_url())).strip()
+    return captcha.try_again(key)
+
+
+vk_session = vk_api.VkApi(os.environ['VK_LOGIN'], os.environ['VK_PASSWORD'],
+                          captcha_handler=captcha_handler)
 vk_session.authorization()
 vk = vk_session.get_api()
 
