@@ -14,6 +14,12 @@ for (name, function) in informers.__dict__.items():
     if name.endswith('informer'):
         informer_functions.append(function)
 
+time.sleep(5)
+device.print_rows("Hi!", "My name is Box.")
+time.sleep(7)
+device.print_rows("Nice to meet", "you there!")
+time.sleep(7)
+
 for informer in itertools.cycle(informer_functions):
     try:
         informer(device)
